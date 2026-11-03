@@ -1,0 +1,18 @@
+<h1>Documents</h1>
+
+<p>
+  Signed in as <%= Current.user.email_address %>.
+  <%= button_to "Sign out", session_path, method: :delete %>
+</p>
+
+<p><%= link_to "New document", new_document_path %></p>
+
+<% if @documents.any? %>
+  <ul>
+    <% @documents.each do |document| %>
+      <li><%= link_to document.title, document %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No documents yet.</p>
+<% end %>
