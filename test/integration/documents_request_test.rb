@@ -20,9 +20,10 @@ class DocumentsRequestTest < ActionDispatch::IntegrationTest
       }
     end
 
-    document = user.documents.order(:created_at).last
+    document = user.documents.find_by!(title: "Product handbook")
 
     assert_redirected_to document_path(document)
-    assert_equal "Product handbook", document.title
+    assert_equal "How we build and support the product.", document.body
+    assert_equal user, document.user
   end
 end
