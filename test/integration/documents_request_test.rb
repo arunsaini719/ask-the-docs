@@ -7,6 +7,14 @@ class DocumentsRequestTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_session_path
   end
 
+  test "signed-in users cannot view another user's document" do
+    sign_in_as users(:one)
+
+    get document_path(documents(:two))
+
+    assert_response :not_found
+  end
+
   test "signed-in users can create a document" do
     user = users(:one)
     sign_in_as user
