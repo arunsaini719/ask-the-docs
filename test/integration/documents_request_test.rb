@@ -7,6 +7,16 @@ class DocumentsRequestTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_session_path
   end
 
+  test "signed-in users see only their own documents" do
+    sign_in_as users(:one)
+
+    get documents_path
+
+    assert_response :success
+    assert_select "a[href=?]", document_path(documents(:one)), count: 1
+    assert_select "a[href=?]", document_path(documents(:two)), count: 0
+  end
+
   test "signed-in users cannot view another user's document" do
     sign_in_as users(:one)
 
@@ -23,7 +33,8 @@ class DocumentsRequestTest < ActionDispatch::IntegrationTest
       post documents_path, params: {
         document: {
           title: "Product handbook",
-          body: "How we build and support the product."
+          body: "How we build and support the product.",
+          user_id: users(:two).id
         }
       }
     end
