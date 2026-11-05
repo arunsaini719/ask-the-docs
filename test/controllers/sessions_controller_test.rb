@@ -22,6 +22,15 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_nil cookies[:session_id]
   end
 
+  test "sign in returns to root after an unauthenticated non-GET request" do
+    delete session_path
+    assert_redirected_to new_session_path
+
+    post session_path, params: { email_address: @user.email_address, password: "password" }
+
+    assert_redirected_to root_path
+  end
+
   test "destroy" do
     sign_in_as(User.take)
 
