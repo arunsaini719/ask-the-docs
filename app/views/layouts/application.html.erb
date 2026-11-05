@@ -24,6 +24,9 @@
   </head>
 
   <body>
+    <%= tag.div(flash[:alert], role: "alert", style: "color:red") if flash[:alert] %>
+    <%= tag.div(flash[:notice], role: "status", style: "color:green") if flash[:notice] %>
+
     <%= yield %>
   </body>
 </html>
