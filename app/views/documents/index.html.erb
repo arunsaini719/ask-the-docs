@@ -1,18 +1,42 @@
-<h1>Documents</h1>
+<% content_for :title, "Documents | Ask the Docs" %>
 
-<p>
-  Signed in as <%= Current.user.email_address %>.
-  <%= button_to "Sign out", session_path, method: :delete %>
-</p>
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">Document library</p>
+    <h1>Your documents</h1>
+    <p class="page-heading__description">Keep the source material for your workspace organized in one place.</p>
+  </div>
 
-<p><%= link_to "New document", new_document_path %></p>
+  <%= link_to "New document", new_document_path, class: "button button--primary" %>
+</section>
 
 <% if @documents.any? %>
-  <ul>
+  <div class="document-grid">
     <% @documents.each do |document| %>
-      <li><%= link_to document.title, document %></li>
+      <article class="document-card">
+        <div class="document-card__icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <div class="document-card__content">
+          <h2><%= link_to document.title, document %></h2>
+          <p><%= truncate(document.body, length: 150) %></p>
+        </div>
+
+        <div class="document-card__meta">
+          <time datetime="<%= document.created_at.iso8601 %>">Added <%= document.created_at.to_date.to_fs(:long) %></time>
+          <%= link_to "Open", document, class: "text-link", aria: { label: "Open #{document.title}" } %>
+        </div>
+      </article>
     <% end %>
-  </ul>
+  </div>
 <% else %>
-  <p>No documents yet.</p>
+  <section class="empty-state">
+    <div class="empty-state__icon" aria-hidden="true">+</div>
+    <h2>Build your document library</h2>
+    <p>Add your first document to start creating a searchable source of knowledge.</p>
+    <%= link_to "Add your first document", new_document_path, class: "button button--primary" %>
+  </section>
 <% end %>

@@ -12,8 +12,8 @@ class DocumentsTest < ApplicationSystemTestCase
     click_on "New document"
 
     fill_in "Title", with: "Support handbook"
-    fill_in "Body", with: "How we support our customers."
-    click_on "Create Document"
+    fill_in "Document content", with: "How we support our customers."
+    click_on "Create document"
 
     assert_text "Document was successfully created."
     assert_text "Support handbook"

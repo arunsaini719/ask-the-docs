@@ -13,7 +13,7 @@ class DocumentsRequestTest < ActionDispatch::IntegrationTest
     get documents_path
 
     assert_response :success
-    assert_select "a[href=?]", document_path(documents(:one)), count: 1
+    assert_select "a[href=?]", document_path(documents(:one)), minimum: 1
     assert_select "a[href=?]", document_path(documents(:two)), count: 0
   end
 
