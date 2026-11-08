@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Ask The Docs" %></title>
+    <title><%= content_for(:title) || "Ask the Docs" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Ask The Docs">
+    <meta name="application-name" content="Ask the Docs">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -18,12 +18,40 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <%= yield %>
+    <header class="site-header">
+      <div class="container site-header__content">
+        <%= link_to root_path, class: "brand", aria: { label: "Ask the Docs home" } do %>
+          <span class="brand__mark" aria-hidden="true">A</span>
+          <span>Ask the Docs</span>
+        <% end %>
+
+        <% if authenticated? %>
+          <nav class="site-nav" aria-label="Main navigation">
+            <%= link_to "Documents", documents_path, class: "site-nav__link" %>
+            <span class="site-nav__user" title="<%= Current.user.email_address %>"><%= Current.user.email_address %></span>
+            <%= button_to "Sign out", session_path, method: :delete,
+              class: "button button--ghost button--small", form_class: "site-nav__form" %>
+          </nav>
+        <% end %>
+      </div>
+    </header>
+
+    <div class="container flash-region" aria-live="polite">
+      <%= tag.div(flash[:alert], class: "flash flash--alert", role: "alert") if flash[:alert] %>
+      <%= tag.div(flash[:notice], class: "flash flash--notice", role: "status") if flash[:notice] %>
+    </div>
+
+    <main class="container page-content">
+      <%= yield %>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">Your documentation, organized and ready to search.</div>
+    </footer>
   </body>
 </html>

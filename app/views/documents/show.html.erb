@@ -1,0 +1,21 @@
+<% content_for :title, "#{@document.title} | Ask the Docs" %>
+
+<div class="document-page">
+  <%= link_to documents_path, class: "back-link" do %>
+    <span aria-hidden="true">&larr;</span> Back to documents
+  <% end %>
+
+  <article class="document-view">
+    <header class="document-view__header">
+      <p class="eyebrow">Document</p>
+      <h1><%= @document.title %></h1>
+      <p class="document-view__meta">
+        Added <time datetime="<%= @document.created_at.iso8601 %>"><%= @document.created_at.to_date.to_fs(:long) %></time>
+      </p>
+    </header>
+
+    <div class="document-view__body">
+      <%= simple_format(@document.body) %>
+    </div>
+  </article>
+</div>

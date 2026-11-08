@@ -1,0 +1,28 @@
+<% content_for :title, "Sign in | Ask the Docs" %>
+
+<section class="auth-page">
+  <div class="auth-card">
+    <div class="auth-card__icon" aria-hidden="true">A</div>
+    <p class="eyebrow">Welcome back</p>
+    <h1>Sign in to your workspace</h1>
+    <p class="auth-card__intro">Access your document library and continue building your knowledge base.</p>
+
+    <%= form_with url: session_path, class: "form-stack" do |form| %>
+      <div class="form-field">
+        <%= form.label :email_address, "Email address" %>
+        <%= form.email_field :email_address, required: true, autofocus: true,
+          autocomplete: "username", placeholder: "you@example.com", value: params[:email_address] %>
+      </div>
+
+      <div class="form-field">
+        <%= form.label :password %>
+        <%= form.password_field :password, required: true, autocomplete: "current-password",
+          placeholder: "Enter your password", maxlength: 72 %>
+      </div>
+
+      <%= form.submit "Sign in", class: "button button--primary button--full" %>
+    <% end %>
+
+    <p class="auth-card__note">Accounts are managed by your workspace administrator.</p>
+  </div>
+</section>

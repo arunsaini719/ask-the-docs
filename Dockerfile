@@ -1,9 +1,11 @@
 # syntax=docker/dockerfile:1
 # check=error=true
 
-# This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
+# This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand.
+# Manual deployments must put a trusted TLS-terminating proxy on port 443 in front of the container
+# and forward X-Forwarded-Proto. Bind the container port only to the proxy host, not the public network:
 # docker build -t ask_the_docs .
-# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name ask_the_docs ask_the_docs
+# docker run -d -p 127.0.0.1:8080:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name ask_the_docs ask_the_docs
 
 # For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
 
